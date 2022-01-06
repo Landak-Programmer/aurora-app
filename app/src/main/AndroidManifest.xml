@@ -1,46 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.auroraai">
-
+    package="com.mobile.auroraai">
+    <!-- ///////////////////////////////////// feature ///////////////////////////////////// -->
+    <uses-feature android:name="android.hardware.type.watch" /> <!-- ///////////////////////////////////// permission ///////////////////////////////////// -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/aurora_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/aurora_icon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AuroraAI"
         android:usesCleartextTraffic="true">
-
-        <!--///////////////////////////////////// activity /////////////////////////////////////-->
-
-        <activity android:name=".Main">
+        <!-- ///////////////////////////////////// activity ///////////////////////////////////// -->
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!--///////////////////////////////////// service /////////////////////////////////////-->
-
+        </activity> <!-- ///////////////////////////////////// service ///////////////////////////////////// -->
         <service
-            android:name=".service.ServiceCommunicator"
+            android:name=".service.background.MasterBackgroundService"
             android:enabled="true"
             android:exported="false" />
-
-        <!--<receiver
-            android:name=".listener.SmsListener"
+        <service
+            android:name=".service.background.WhatsappAccessibilityService"
             android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
-            </intent-filter>
-        </receiver>-->
-    </application>
+            android:label="Whatsapp Accessibility Service"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/whatsapp_service" />
 
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+        </service>
+    </application>
 
 </manifest>
